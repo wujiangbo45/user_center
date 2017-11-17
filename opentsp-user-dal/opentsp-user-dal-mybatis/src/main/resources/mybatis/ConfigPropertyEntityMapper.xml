@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.ConfigPropertyEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.ConfigPropertyEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="prop_name" property="propName" jdbcType="VARCHAR"/>
+        <result column="prop_value" property="propValue" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="default_val" property="defaultVal" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, product_id, type, prop_name, prop_value, description, default_val, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_config_props
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from opentsp_config_props
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from opentsp_config_props
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.ConfigPropertyEntity">
+        insert into opentsp_config_props (id, product_id, type,
+        prop_name, prop_value, description,
+        default_val, create_time)
+        values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+        #{propName,jdbcType=VARCHAR}, #{propValue,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+        #{defaultVal,jdbcType=VARCHAR}, now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.ConfigPropertyEntity">
+        insert into opentsp_config_props
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="propName != null">
+                prop_name,
+            </if>
+            <if test="propValue != null">
+                prop_value,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="defaultVal != null">
+                default_val,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="propName != null">
+                #{propName,jdbcType=VARCHAR},
+            </if>
+            <if test="propValue != null">
+                #{propValue,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultVal != null">
+                #{defaultVal,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.ConfigPropertyEntity">
+        update opentsp_config_props
+        <set>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="propName != null">
+                prop_name = #{propName,jdbcType=VARCHAR},
+            </if>
+            <if test="propValue != null">
+                prop_value = #{propValue,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultVal != null">
+                default_val = #{defaultVal,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.ConfigPropertyEntity">
+        update opentsp_config_props
+        set product_id = #{productId,jdbcType=VARCHAR},
+        type = #{type,jdbcType=VARCHAR},
+        prop_name = #{propName,jdbcType=VARCHAR},
+        prop_value = #{propValue,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        default_val = #{defaultVal,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

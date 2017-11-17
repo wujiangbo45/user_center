@@ -1,0 +1,29 @@
+package com.navinfo.opentsp.user.sms;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
+/**
+ * @author wupeng
+ * @version 1.0
+ * @date 2016-02-29
+ * @modify
+ * @copyright Navi Tsp
+ */
+public class Test2 {
+
+    public static void main(String[] args) throws AWTException, InterruptedException {
+        Robot robot = new Robot();
+
+        Thread.currentThread().sleep(5000);
+
+        while(true) {
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+        }
+    }
+}

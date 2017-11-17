@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.UserProfileEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.UserProfileEntity">
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="BIT"/>
+        <result column="birthday" property="birthday" jdbcType="TIMESTAMP"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="mobile_actived" property="mobileActived" jdbcType="BIT"/>
+        <result column="email_actived" property="emailActived" jdbcType="BIT"/>
+        <result column="nickname_modifiable" property="nicknameModifiable" jdbcType="BIT"/>
+        <result column="register_src" property="registerSrc" jdbcType="VARCHAR"/>
+        <result column="register_device_id" property="registerDeviceId" jdbcType="VARCHAR"/>
+        <result column="register_device_type" property="registerDeviceType" jdbcType="VARCHAR"/>
+        <result column="register_app_version" property="registerAppVersion" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, img_url, gender, birthday, province, city, district, mobile_actived, email_actived,
+        nickname_modifiable, register_src, register_device_id, register_device_type, register_app_version
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_user_profile
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from opentsp_user_profile
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.UserProfileEntity">
+        insert into opentsp_user_profile (user_id, img_url, gender,
+        birthday, province, city,
+        district, mobile_actived, email_actived,
+        nickname_modifiable, register_src, register_device_id,
+        register_device_type, register_app_version)
+        values (#{userId,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{gender,jdbcType=BIT},
+        #{birthday,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+        #{district,jdbcType=VARCHAR}, #{mobileActived,jdbcType=BIT}, #{emailActived,jdbcType=BIT},
+        #{nicknameModifiable,jdbcType=BIT}, #{registerSrc,jdbcType=VARCHAR}, #{registerDeviceId,jdbcType=VARCHAR},
+        #{registerDeviceType,jdbcType=VARCHAR}, #{registerAppVersion,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserProfileEntity">
+        insert into opentsp_user_profile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="district != null">
+                district,
+            </if>
+            <if test="mobileActived != null">
+                mobile_actived,
+            </if>
+            <if test="emailActived != null">
+                email_actived,
+            </if>
+            <if test="nicknameModifiable != null">
+                nickname_modifiable,
+            </if>
+            <if test="registerSrc != null">
+                register_src,
+            </if>
+            <if test="registerDeviceId != null">
+                register_device_id,
+            </if>
+            <if test="registerDeviceType != null">
+                register_device_type,
+            </if>
+            <if test="registerAppVersion != null">
+                register_app_version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=BIT},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="mobileActived != null">
+                #{mobileActived,jdbcType=BIT},
+            </if>
+            <if test="emailActived != null">
+                #{emailActived,jdbcType=BIT},
+            </if>
+            <if test="nicknameModifiable != null">
+                #{nicknameModifiable,jdbcType=BIT},
+            </if>
+            <if test="registerSrc != null">
+                #{registerSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDeviceId != null">
+                #{registerDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDeviceType != null">
+                #{registerDeviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="registerAppVersion != null">
+                #{registerAppVersion,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserProfileEntity">
+        update opentsp_user_profile
+        <set>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=BIT},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                district = #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="mobileActived != null">
+                mobile_actived = #{mobileActived,jdbcType=BIT},
+            </if>
+            <if test="emailActived != null">
+                email_actived = #{emailActived,jdbcType=BIT},
+            </if>
+            <if test="nicknameModifiable != null">
+                nickname_modifiable = #{nicknameModifiable,jdbcType=BIT},
+            </if>
+            <if test="registerSrc != null">
+                register_src = #{registerSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDeviceId != null">
+                register_device_id = #{registerDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDeviceType != null">
+                register_device_type = #{registerDeviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="registerAppVersion != null">
+                register_app_version = #{registerAppVersion,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.UserProfileEntity">
+        update opentsp_user_profile
+        set img_url = #{imgUrl,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=BIT},
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+        province = #{province,jdbcType=VARCHAR},
+        city = #{city,jdbcType=VARCHAR},
+        district = #{district,jdbcType=VARCHAR},
+        mobile_actived = #{mobileActived,jdbcType=BIT},
+        email_actived = #{emailActived,jdbcType=BIT},
+        nickname_modifiable = #{nicknameModifiable,jdbcType=BIT},
+        register_src = #{registerSrc,jdbcType=VARCHAR},
+        register_device_id = #{registerDeviceId,jdbcType=VARCHAR},
+        register_device_type = #{registerDeviceType,jdbcType=VARCHAR},
+        register_app_version = #{registerAppVersion,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+</mapper>

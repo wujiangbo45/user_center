@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.AppIDKeyEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.AppIDKeyEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="third_type" property="thirdType" jdbcType="VARCHAR"/>
+        <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+        <result column="appid" property="appid" jdbcType="VARCHAR"/>
+        <result column="appkey" property="appkey" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, third_type, third_name, appid, appkey, product_id, create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_appid_key_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_appid_key_info
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from opentsp_appid_key_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.AppIDKeyEntity">
+    insert into opentsp_appid_key_info (id, third_type, third_name, 
+      appid, appkey, product_id, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{thirdType,jdbcType=VARCHAR}, #{thirdName,jdbcType=VARCHAR}, 
+      #{appid,jdbcType=VARCHAR}, #{appkey,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.AppIDKeyEntity">
+        insert into opentsp_appid_key_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="thirdType != null">
+                third_type,
+            </if>
+            <if test="thirdName != null">
+                third_name,
+            </if>
+            <if test="appid != null">
+                appid,
+            </if>
+            <if test="appkey != null">
+                appkey,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdType != null">
+                #{thirdType,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdName != null">
+                #{thirdName,jdbcType=VARCHAR},
+            </if>
+            <if test="appid != null">
+                #{appid,jdbcType=VARCHAR},
+            </if>
+            <if test="appkey != null">
+                #{appkey,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.AppIDKeyEntity">
+        update opentsp_appid_key_info
+        <set>
+            <if test="thirdType != null">
+                third_type = #{thirdType,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdName != null">
+                third_name = #{thirdName,jdbcType=VARCHAR},
+            </if>
+            <if test="appid != null">
+                appid = #{appid,jdbcType=VARCHAR},
+            </if>
+            <if test="appkey != null">
+                appkey = #{appkey,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.AppIDKeyEntity">
+    update opentsp_appid_key_info
+    set third_type = #{thirdType,jdbcType=VARCHAR},
+      third_name = #{thirdName,jdbcType=VARCHAR},
+      appid = #{appid,jdbcType=VARCHAR},
+      appkey = #{appkey,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

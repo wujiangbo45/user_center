@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.ProductEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.ProductEntity">
+        <id column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        product_id, product_name, description, create_time,status
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_product_info
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_product_info
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from opentsp_product_info
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.ProductEntity">
+        insert into opentsp_product_info (product_id, product_name, description,
+        create_time)
+        values (#{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+        now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.ProductEntity">
+        insert into opentsp_product_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.ProductEntity">
+        update opentsp_product_info
+        <set>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+        </set>
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.ProductEntity">
+        update opentsp_product_info
+        set product_name = #{productName,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </update>
+</mapper>

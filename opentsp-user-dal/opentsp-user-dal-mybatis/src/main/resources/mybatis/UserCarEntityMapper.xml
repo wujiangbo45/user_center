@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.UserCarEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.UserCarEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="op_product_id" property="opProductId" jdbcType="VARCHAR"/>
+        <result column="car_model_id" property="carModelId" jdbcType="VARCHAR"/>
+        <result column="car_icon" property="carIcon" jdbcType="VARCHAR"/>
+        <result column="car_no" property="carNo" jdbcType="VARCHAR"/>
+        <result column="engine_no" property="engineNo" jdbcType="VARCHAR"/>
+        <result column="buy_date" property="buyDate" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_valid" property="isValid" jdbcType="BIT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, op_product_id, car_model_id, car_icon, car_no, engine_no, buy_date, 
+    create_time, update_time, is_valid
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_user_car_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="findByUserIdAndCarNo" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_user_car_info
+        where user_id = #{userId,jdbcType=VARCHAR} and car_no = #{carNo, jdbcType=VARCHAR}
+    </select>
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_user_car_info
+        where user_id = #{userId,jdbcType=VARCHAR} and is_valid=1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from opentsp_user_car_info
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <update id="deleteByCarId" parameterType="java.lang.String">
+        delete from opentsp_user_car_info
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.UserCarEntity">
+        insert into opentsp_user_car_info (id, user_id, op_product_id,
+      car_model_id, car_icon, car_no, 
+      engine_no, buy_date, create_time, 
+      update_time, is_valid)
+        values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{opProductId,jdbcType=VARCHAR},
+      #{carModelId,jdbcType=VARCHAR}, #{carIcon,jdbcType=VARCHAR}, #{carNo,jdbcType=VARCHAR}, 
+      #{engineNo,jdbcType=VARCHAR}, #{buyDate,jdbcType=TIMESTAMP}, now(), 
+      now(), #{isValid,jdbcType=BIT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserCarEntity">
+        insert into opentsp_user_car_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="opProductId != null">
+                op_product_id,
+            </if>
+            <if test="carModelId != null">
+                car_model_id,
+            </if>
+            <if test="carIcon != null">
+                car_icon,
+            </if>
+            <if test="carNo != null">
+                car_no,
+            </if>
+            <if test="engineNo != null">
+                engine_no,
+            </if>
+            <if test="buyDate != null">
+                buy_date,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isValid != null">
+                is_valid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="opProductId != null">
+                #{opProductId,jdbcType=VARCHAR},
+            </if>
+            <if test="carModelId != null">
+                #{carModelId,jdbcType=VARCHAR},
+            </if>
+            <if test="carIcon != null">
+                #{carIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="engineNo != null">
+                #{engineNo,jdbcType=VARCHAR},
+            </if>
+            <if test="buyDate != null">
+                #{buyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isValid != null">
+                #{isValid,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserCarEntity">
+        update opentsp_user_car_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="opProductId != null">
+                op_product_id = #{opProductId,jdbcType=VARCHAR},
+            </if>
+            <if test="carModelId != null">
+                car_model_id = #{carModelId,jdbcType=VARCHAR},
+            </if>
+            <if test="carIcon != null">
+                car_icon = #{carIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                car_no = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="engineNo != null">
+                engine_no = #{engineNo,jdbcType=VARCHAR},
+            </if>
+            <if test="buyDate != null">
+                buy_date = #{buyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            update_time = now(),
+            <if test="isValid != null">
+                is_valid = #{isValid,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.UserCarEntity">
+        update opentsp_user_car_info
+        set user_id = #{userId,jdbcType=VARCHAR},
+        op_product_id = #{opProductId,jdbcType=VARCHAR},
+        car_model_id = #{carModelId,jdbcType=VARCHAR},
+      car_icon = #{carIcon,jdbcType=VARCHAR},
+        car_no = #{carNo,jdbcType=VARCHAR},
+        engine_no = #{engineNo,jdbcType=VARCHAR},
+        buy_date = #{buyDate,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now(),
+        is_valid = #{isValid,jdbcType=BIT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

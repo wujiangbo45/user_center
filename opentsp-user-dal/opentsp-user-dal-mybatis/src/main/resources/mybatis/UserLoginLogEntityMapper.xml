@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.UserLoginLogEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.UserLoginLogEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="op_product_id" property="opProductId" jdbcType="VARCHAR"/>
+        <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR"/>
+        <result column="login_result" property="loginResult" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+        <result column="device_id" property="deviceId" jdbcType="VARCHAR"/>
+        <result column="app_version" property="appVersion" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, product_id, op_product_id, login_name, login_time, login_ip, login_result,
+        token, device_type, device_id, app_version
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from opentsp_user_login_log
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="latestLogs" resultMap="BaseResultMap" parameterType="map">
+        SELECT <include refid="Base_Column_List"/> FROM opentsp_user_login_log
+        WHERE user_id = #{userId} and login_time &gt;= #{loginDate} and login_result LIKE '%success%' order by login_time desc limit #{num}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from opentsp_user_login_log
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.UserLoginLogEntity">
+        insert into opentsp_user_login_log (id, user_id, product_id,
+        op_product_id, login_name, login_time,
+        login_ip, login_result, token,
+        device_type, device_id,
+        app_version)
+        values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
+        #{opProductId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, now(),
+        #{loginIp,jdbcType=VARCHAR}, #{loginResult,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR},
+        #{deviceType,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR},
+        #{appVersion,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserLoginLogEntity">
+        insert into opentsp_user_login_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="opProductId != null">
+                op_product_id,
+            </if>
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="loginTime != null">
+                login_time,
+            </if>
+            <if test="loginIp != null">
+                login_ip,
+            </if>
+            <if test="loginResult != null">
+                login_result,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="deviceType != null">
+                device_type,
+            </if>
+            <if test="deviceId != null">
+                device_id,
+            </if>
+            <if test="appVersion != null">
+                app_version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="opProductId != null">
+                #{opProductId,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loginIp != null">
+                #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginResult != null">
+                #{loginResult,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceId != null">
+                #{deviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="appVersion != null">
+                #{appVersion,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.UserLoginLogEntity">
+        update opentsp_user_login_log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="opProductId != null">
+                op_product_id = #{opProductId,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loginIp != null">
+                login_ip = #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginResult != null">
+                login_result = #{loginResult,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                device_type = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceId != null">
+                device_id = #{deviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="appVersion != null">
+                app_version = #{appVersion,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.UserLoginLogEntity">
+        update opentsp_user_login_log
+        set user_id = #{userId,jdbcType=VARCHAR},
+        product_id = #{productId,jdbcType=VARCHAR},
+        op_product_id = #{opProductId,jdbcType=VARCHAR},
+        login_name = #{loginName,jdbcType=VARCHAR},
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+        login_result = #{loginResult,jdbcType=VARCHAR},
+        token = #{token,jdbcType=VARCHAR},
+        device_type = #{deviceType,jdbcType=VARCHAR},
+        device_id = #{deviceId,jdbcType=VARCHAR},
+        app_version = #{appVersion,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

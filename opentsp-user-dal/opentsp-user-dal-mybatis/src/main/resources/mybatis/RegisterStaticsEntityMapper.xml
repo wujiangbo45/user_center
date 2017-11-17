@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.navinfo.opentsp.user.dal.mybatis.mapper.RegisterStaticsEntityMapper">
+    <resultMap id="BaseResultMap" type="com.navinfo.opentsp.user.dal.entity.RegisterStaticsEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="register_year" property="registerYear" jdbcType="INTEGER"/>
+        <result column="register_month" property="registerMonth" jdbcType="VARCHAR"/>
+        <result column="register_week" property="registerWeek" jdbcType="VARCHAR"/>
+        <result column="register_date" property="registerDate" jdbcType="VARCHAR"/>
+        <result column="register_src" property="registerSrc" jdbcType="VARCHAR"/>
+        <result column="product" property="product" jdbcType="VARCHAR"/>
+        <result column="register_num" property="registerNum" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, register_year, register_month, register_week, product, register_date, register_src, register_num
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user_register_statics
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="queryList" resultType="java.util.Map" parameterType="map">
+        select sum(register_num) as num, register_src from user_register_statics
+        <where>
+            <if test="product != null">
+                product=#{product}
+            </if>
+            <if test="date != null">
+                and register_date = #{date}
+            </if>
+        </where>
+        group by register_src;
+    </select>
+    <select id="queryStatics" parameterType="map" resultType="java.util.Map" >
+        select sum(register_num) as num, ${column} as x_name, register_src from user_register_statics
+        <where>
+            register_date &lt;= #{endDate} and register_date &gt;= #{startDate}
+            <if test="product != null">
+               and product = #{product}
+            </if>
+        </where>
+        group by ${column}, register_src order by register_date asc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from user_register_statics
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.navinfo.opentsp.user.dal.entity.RegisterStaticsEntity">
+    insert into user_register_statics (id, register_year, register_month, 
+      register_week, register_date, register_src, 
+      register_num, product)
+    values (#{id,jdbcType=VARCHAR}, #{registerYear,jdbcType=INTEGER}, #{registerMonth,jdbcType=VARCHAR}, 
+      #{registerWeek,jdbcType=INTEGER}, #{registerDate,jdbcType=VARCHAR}, #{registerSrc,jdbcType=VARCHAR}, 
+      #{registerNum,jdbcType=BIGINT}, #{product,jdbcType=VARCHAR})
+    </insert>
+    <insert id="analyzeRegister" parameterType="map">
+        insert into user_register_statics
+        select replace(uuid(), '-', '') as id,
+        DATE_FORMAT(t.create_time,'%Y') as register_year,
+        DATE_FORMAT(t.create_time,'%Y-%m') as register_month,
+        week(t.create_time, 1) as register_week,
+        t.create_date as register_date,
+        t.register_src,
+        t.num as register_num,
+        t.product_id as product
+        from (
+        select count(id) as num,
+        DATE_FORMAT(create_time,'%Y-%m-%d') as create_date,
+        create_time, register_src, product_id
+        <!--                        where create_time >= #{dayStart} and create_time < #{dayEnd}  -->
+        from opentsp_user_info_view where create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}
+        group by product_id, create_date, register_src
+        ) t
+    </insert>
+    <insert id="analyzeOne" parameterType="map">
+      insert into user_register_statics
+        select replace(uuid(), '-', '') as id,
+        DATE_FORMAT(t.create_time,'%Y') as register_year,
+        DATE_FORMAT(t.create_time,'%Y-%m') as register_month,
+        week(t.create_time, 1) as register_week,
+        t.create_date as register_date,
+        t.register_src,
+        t.num as register_num,
+        t.product_id as product
+        from (
+            select count(id) as num,
+            DATE_FORMAT(create_time,'%Y-%m-%d') as create_date,
+            create_time, register_src, product_id
+            from opentsp_user_info_view where create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}
+              and product = #{product} and  register_src = #{registerSrc}
+            group by product_id, create_date, register_src
+        ) t
+    </insert>
+    <delete id="deleteAnalyzer" parameterType="map">
+        delete from user_register_statics
+        <where>
+            register_date &gt;= #{dayStart} and register_date &lt; #{dayEnd}
+            <if test="product != null">
+                and product = #{product}
+            </if>
+            <if test="registerSrc != null">
+                and register_src = #{registerSrc}
+            </if>
+        </where>
+    </delete>
+    <insert id="insertSelective" parameterType="com.navinfo.opentsp.user.dal.entity.RegisterStaticsEntity">
+        insert into user_register_statics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="registerYear != null">
+                register_year,
+            </if>
+            <if test="registerMonth != null">
+                register_month,
+            </if>
+            <if test="registerWeek != null">
+                register_week,
+            </if>
+            <if test="registerDate != null">
+                register_date,
+            </if>
+            <if test="registerSrc != null">
+                register_src,
+            </if>
+            <if test="registerNum != null">
+                register_num,
+            </if>
+            <if test="product != null">
+                product,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="registerYear != null">
+                #{registerYear,jdbcType=INTEGER},
+            </if>
+            <if test="registerMonth != null">
+                #{registerMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="registerWeek != null">
+                #{registerWeek,jdbcType=INTEGER},
+            </if>
+            <if test="registerDate != null">
+                #{registerDate,jdbcType=VARCHAR},
+            </if>
+            <if test="registerSrc != null">
+                #{registerSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="registerNum != null">
+                #{registerNum,jdbcType=BIGINT},
+            </if>
+            <if test="product != null">
+                #{product,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.navinfo.opentsp.user.dal.entity.RegisterStaticsEntity">
+        update user_register_statics
+        <set>
+            <if test="registerYear != null">
+                register_year = #{registerYear,jdbcType=INTEGER},
+            </if>
+            <if test="registerMonth != null">
+                register_month = #{registerMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="registerWeek != null">
+                register_week = #{registerWeek,jdbcType=INTEGER},
+            </if>
+            <if test="registerDate != null">
+                register_date = #{registerDate,jdbcType=VARCHAR},
+            </if>
+            <if test="registerSrc != null">
+                register_src = #{registerSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="registerNum != null">
+                register_num = #{registerNum,jdbcType=BIGINT},
+            </if>
+            <if test="product != null">
+                product = #{product,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.navinfo.opentsp.user.dal.entity.RegisterStaticsEntity">
+    update user_register_statics
+    set register_year = #{registerYear,jdbcType=INTEGER},
+      register_month = #{registerMonth,jdbcType=VARCHAR},
+      register_week = #{registerWeek,jdbcType=INTEGER},
+      register_date = #{registerDate,jdbcType=VARCHAR},
+      register_src = #{registerSrc,jdbcType=VARCHAR},
+      register_num = #{registerNum,jdbcType=BIGINT},
+      product = #{product,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

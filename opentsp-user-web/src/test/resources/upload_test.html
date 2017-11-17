@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <div>
+        <div>
+            <span>输入请求的url：</span>
+        </div>
+        <div>
+            <input type="text" id="form_action"/>
+        </div>
+    </div>
+
+    <form action="" method="post" enctype="multipart/form-data" id="mainForm">
+        <table>
+            <tr>
+                <td>输入token：</td>
+                <td><input type="text" id="token" name="token"/></td>
+            </tr>
+            <tr>
+                <td>选择文件</td>
+                <td><input type="file" name="file" id="file"/></td>
+            </tr>
+            <tr>
+               <td colspan="2">
+                   <input type="button" value="提交" onclick="form_submit()"/>
+               </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function form_submit() {
+            var action = document.getElementById("form_action").value;
+            if(!action){
+                alert("请输入请求的url!");
+                return;
+            }
+
+            document.getElementById("mainForm").setAttribute("action", action);
+            var token = document.getElementById("token").value;
+            if(!token) {
+                alert("请输入token！");
+                return;
+            }
+
+            var file = document.getElementById("file").value;
+            if(!file) {
+                alert("请选择文件！")
+                return;
+            }
+
+            document.getElementById("mainForm").submit();
+        }
+    </script>
+
+</body>
+</html>
